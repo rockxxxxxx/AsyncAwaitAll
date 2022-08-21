@@ -13,14 +13,29 @@ function getPost() {
   }, 3000);
 }
 
-getPost();
-
-const postF = async function () {
-  const createPost = function (post) {
-    setTimeout(function (resolve, reject) {
-      resolve(posts.push(post));
+function createPost(post) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      posts.push(post);
+      resolve();
     }, 1000);
-  };
-};
+  });
+}
 
-postF({ title: "Post 3", data: "This is post 3" }).then(getPost);
+function deletePost() {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      posts.pop();
+      resolve();
+    }, 2000);
+  });
+}
+
+async function cdg() {
+  let create = await createPost({ title: "Post 3", data: "This is post 3" });
+  let delte = await deletePost();
+  create = await createPost({ title: "Post 4", data: "This is post 4" });
+  getPost();
+}
+
+cdg();
